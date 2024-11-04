@@ -61,12 +61,17 @@ int main() {
             int pointer = atoi(token);
             token = strtok(NULL, " ");
             bool* data = (bool*) malloc(sizeof(bool) * strlen(token));
-    
+            if(data == NULL) {
+                fprintf(stderr, "Memory allocation failed\n");
+                exit(EXIT_FAILURE);
+            } 
+
             for(int i = 0; i < strlen(token); i++) {
                 data[i] = (token[i] == '1');
             }
 
             malloc_i(pointer, strlen(token), data);
+            free(data);
         } else if(strcmp(token, "infolen") == 0) {
             printf("Length of physical memory: %d", memi_size);
         } else {
