@@ -21,7 +21,7 @@ void phmem_command() {
 void free_command() {
     int pointer = atoi(strtok(NULL, " "));
     int size = atoi(strtok(NULL, " "));
-    malloc_i(pointer, size, NULL);
+    mem_free(pointer, size);
 }
 
 void read_command() {
@@ -59,7 +59,7 @@ void write_command() {
         data[i] = (token[i] == '1');
     }
 
-    malloc_i(pointer, strlen(token), data);
+    mem_write_i(pointer, strlen(token), data);
     free(data); 
 }
 
@@ -98,6 +98,30 @@ void writetype_command() {
     }
 }
 
+void malloc_command() {
+    int size = atoi(strtok(NULL, " "));
+    int pointer = mem_malloc(size);
+
+    if(pointer == -1) {
+        printf("Memory allocation failed");
+    } else {
+        printf("%d", pointer);
+    }
+}
+
+void move_command() {
+    int pointerA = atoi(strtok(NULL, " "));
+    int pointerB = atoi(strtok(NULL, " "));
+    int size = atoi(strtok(NULL, " "));
+    mem_move(pointerA, pointerB, size);
+}
+
+void allocate_command() {
+    int pointer = atoi(strtok(NULL, " "));
+    int size = atoi(strtok(NULL, " "));
+    allocate(pointer, size);
+}
+
 void help_command() {
     printf("help: this command\n");
     printf("exit: exit programm\n");
@@ -107,6 +131,9 @@ void help_command() {
     printf("read <pointer> <size>: read <size> bytes from memory at <pointer>\n");
     printf("write <pointer> <data>: write <data> to memory at <pointer>\n");
     printf("infolen: show length of physical memory\n\n");
+    printf("malloc <size>: reserves memory of <size>\n");
+    printf("move <pointerA> <pointerB> <size>: move memory from <pointerA> to <pointerB> by <size>\n");
+    printf("allocate <pointer> <size>: allocated memory of <size> at <pointer>\n\n");
     printf("readtype <pointer> <type>: read <type> from memory at <pointer>\n");
     printf("writetype <pointer> <type> <value>: write <type> <value> to memory at <pointer>\n\n");
     printf("types:\n");
@@ -147,6 +174,9 @@ int main() {
         else if(strcmp(token, "write") == 0)       write_command();
         else if(strcmp(token, "readtype") == 0)    readtype_command();
         else if(strcmp(token, "writetype") == 0)   writetype_command();
+        else if(strcmp(token, "malloc") == 0)      malloc_command();
+        else if(strcmp(token, "move") == 0)        move_command();
+        else if(strcmp(token, "allocate") == 0)    allocate_command();
         else if(strcmp(token, "infolen") == 0) {
             printf("Length of physical memory: %d", memi_size);
         } else {

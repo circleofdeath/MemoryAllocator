@@ -56,7 +56,7 @@ void write_signed_long_value(int pointer, long value) {
         data[i] = (value >> i) & 1;
     }
 
-    malloc_i(pointer, 64, data);
+    mem_write_i(pointer, 64, data);
 }
 
 void write_signed_int_value(int pointer, int value) {
@@ -66,7 +66,7 @@ void write_signed_int_value(int pointer, int value) {
         data[i] = (value >> i) & 1;
     }
 
-    malloc_i(pointer, 32, data);
+    mem_write_i(pointer, 32, data);
 }
 
 void write_signed_short_value(int pointer, short value) {
@@ -76,7 +76,7 @@ void write_signed_short_value(int pointer, short value) {
         data[i] = (value >> i) & 1;
     }
 
-    malloc_i(pointer, 16, data);
+    mem_write_i(pointer, 16, data);
 }
 
 void write_signed_byte_value(int pointer, char value) {
@@ -86,5 +86,5 @@ void write_signed_byte_value(int pointer, char value) {
         data[i] = (value >> i) & 1;
     }
 
-    malloc_i(pointer, 8, data);
+    mem_write_i(pointer, 8, data);
 }

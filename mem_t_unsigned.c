@@ -52,7 +52,7 @@ void write_long_value(int pointer, unsigned long value) {
         data[i] = (value & (1UL << i)) != 0;
     }
 
-    malloc_i(pointer, 64, data);
+    mem_write_i(pointer, 64, data);
 }
 
 void write_int_value(int pointer, unsigned int value) {
@@ -62,7 +62,7 @@ void write_int_value(int pointer, unsigned int value) {
         data[i] = (value & (1U << i)) != 0;
     }
 
-    malloc_i(pointer, 32, data);
+    mem_write_i(pointer, 32, data);
 }
 
 void write_short_value(int pointer, unsigned short value) {
@@ -72,7 +72,7 @@ void write_short_value(int pointer, unsigned short value) {
         data[i] = (value & (1U << i)) != 0;
     }
 
-    malloc_i(pointer, 16, data);
+    mem_write_i(pointer, 16, data);
 }
 
 void write_byte_value(int pointer, unsigned char value) {
@@ -82,5 +82,5 @@ void write_byte_value(int pointer, unsigned char value) {
         data[i] = (value & (1U << i)) != 0;
     }
 
-    malloc_i(pointer, 8, data);
+    mem_write_i(pointer, 8, data);
 }
