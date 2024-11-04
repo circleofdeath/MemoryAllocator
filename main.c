@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mem_i.h"
+#include "mem_t.h"
 
 #define INPUT_SIZE 256
 
@@ -62,13 +63,61 @@ void write_command() {
     free(data); 
 }
 
+void readtype_command() {
+    int pointer = atoi(strtok(NULL, " "));
+    char* token = strtok(NULL, " ");
+
+    if(strcmp(token, "ul") == 0)      printf("%lu", read_long_value(pointer));
+    else if(strcmp(token, "ui") == 0) printf("%d",  read_int_value(pointer));
+    else if(strcmp(token, "us") == 0) printf("%d",  read_short_value(pointer));
+    else if(strcmp(token, "uc") == 0) printf("%d",  read_byte_value(pointer));
+    else if(strcmp(token, "l") == 0)  printf("%ld", read_signed_long_value(pointer));
+    else if(strcmp(token, "i") == 0)  printf("%d",  read_signed_int_value(pointer));
+    else if(strcmp(token, "s") == 0)  printf("%d",  read_signed_short_value(pointer));
+    else if(strcmp(token, "c") == 0)  printf("%d",  read_signed_byte_value(pointer));
+    else {
+        fprintf(stderr, "Invalid type\n");
+    }
+}
+
+void writetype_command() {
+    int pointer = atoi(strtok(NULL, " "));
+    char* token = strtok(NULL, " ");
+    char* value = strtok(NULL, " ");
+
+    if(strcmp(token, "ul") == 0)      write_long_value(pointer,  strtoul(value, NULL, 10));
+    else if(strcmp(token, "ui") == 0) write_int_value(pointer,   strtoul(value, NULL, 10));
+    else if(strcmp(token, "us") == 0) write_short_value(pointer, strtoul(value, NULL, 10));
+    else if(strcmp(token, "uc") == 0) write_byte_value(pointer,  strtoul(value, NULL, 10));
+    else if(strcmp(token, "l") == 0)  write_signed_long_value(pointer,  atol(value));
+    else if(strcmp(token, "i") == 0)  write_signed_int_value(pointer,   atol(value));
+    else if(strcmp(token, "s") == 0)  write_signed_short_value(pointer, atol(value));
+    else if(strcmp(token, "c") == 0)  write_signed_byte_value(pointer,  atol(value));
+    else {
+        fprintf(stderr, "Invalid type\n");
+    }
+}
+
 void help_command() {
+    printf("help: this command\n");
+    printf("exit: exit programm\n");
     printf("phmemstatic <size>: resize bytes of physical memory to <size>\n");
     printf("phmem <size>: increase/decrease bytes of physical memory by <size>\n");
     printf("free <pointer> <size>: free memory at <pointer> by <size>\n");
     printf("read <pointer> <size>: read <size> bytes from memory at <pointer>\n");
     printf("write <pointer> <data>: write <data> to memory at <pointer>\n");
-    printf("infolen: show length of physical memory");
+    printf("infolen: show length of physical memory\n\n");
+    printf("readtype <pointer> <type>: read <type> from memory at <pointer>\n");
+    printf("writetype <pointer> <type> <value>: write <type> <value> to memory at <pointer>\n\n");
+    printf("types:\n");
+    printf("  - ul: unsigned long\n");
+    printf("  - ui: unsigned int\n");
+    printf("  - us: unsigned short\n");
+    printf("  - uc: unsigned char\n");
+    printf("  - l:  long\n");
+    printf("  - i:  int\n");
+    printf("  - s:  short\n");
+    printf("  - c:  char");
 }
 
 int main() {
@@ -96,6 +145,8 @@ int main() {
         else if(strcmp(token, "free") == 0)        free_command();
         else if(strcmp(token, "read") == 0)        read_command();
         else if(strcmp(token, "write") == 0)       write_command();
+        else if(strcmp(token, "readtype") == 0)    readtype_command();
+        else if(strcmp(token, "writetype") == 0)   writetype_command();
         else if(strcmp(token, "infolen") == 0) {
             printf("Length of physical memory: %d", memi_size);
         } else {
